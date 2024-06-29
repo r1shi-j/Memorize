@@ -7,56 +7,102 @@
 
 import SwiftUI
 
+enum Themes {
+    case vehicle, animal, fruit
+}
+
 struct ContentView: View {
-    let emojis: [String] = ["👻", "🎃", "🕷️", "😈", "💀", "🕸️", "🧙‍♀️", "🙀", "👹", "😱", "☠️", "🍭"]
+    let vehicleEmojis: [String] = ["🚗", "🚕", "🚌", "🏎️", "🚓", "🚑", "🚒", "🚐", "🚚", "🚜"/*, "🚅", "🚂", "🚃", "🚁", "🛩️", "🛥️"*/]
+    let animalEmojis: [String] = ["🐶", "🐱", "🐭", "🐰", "🐼", "🦊", "🐯", "🦁", "🐮"/*, "🐷", "🐵", "🐸", "🐔", "🦄", "🦉"*/]
+    let fruitEmojis: [String] = ["🍏", "🍐", "🍊", "🍋", "🍓", "🍇", "🍉", "🍌"/*, "🫐", "🍍", "🥥", "🍒", "🥭", "🥝"*/]
     
-    @State var cardCount: Int = 4
+    @State var currentThemeEmojis: [String] = []
+    @State var currentTheme: Themes = .vehicle
     
     var body: some View {
         VStack {
+            Text("Memorize!")
+                .font(.largeTitle)
             ScrollView {
                 cards
             }
             Spacer()
-            cardCountAdjusters
+            themePicker
         }
         .padding()
+        .onAppear {
+            currentThemeEmojis = themeEmojis(theme: currentTheme)
+        }
     }
     
     var cards: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))]) {
-            ForEach(0..<cardCount, id: \.self) { index in
-                CardView(content: emojis[index])
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 60))], spacing: 8) {
+            ForEach(currentThemeEmojis.indices, id: \.self) { index in
+                CardView(content: currentThemeEmojis[index])
                     .aspectRatio(2/3, contentMode: .fit)
             }
         }
-        .foregroundColor(.orange)
+        .foregroundColor(matchColors(theme: currentTheme))
     }
     
-    var cardCountAdjusters: some View {
-        HStack {
-            cardRemover
-            Spacer()
-            cardAdder
+    var themePicker: some View {
+        HStack(spacing: 45) {
+            someTheme(name: "Vehicles", image: "car", theme: .vehicle)
+            someTheme(name: "Animals", image: "dog", theme: .animal)
+            someTheme(name: "Fruits", image: "carrot", theme: .fruit)
         }
         .imageScale(.large)
     }
     
-    var cardRemover: some View {
-        cardCountAdjuster(by: -1, symbol: "rectangle.stack.badge.minus")
-    }
-    
-    var cardAdder: some View {
-        cardCountAdjuster(by: +1, symbol: "rectangle.stack.badge.plus")
-    }
-    
-    func cardCountAdjuster(by offset: Int, symbol: String) -> some View {
+    func someTheme(name: String, image: String, theme: Themes) -> some View {
         Button(action: {
-            cardCount += offset
+            currentTheme = theme
+            currentThemeEmojis = themeEmojis(theme: theme)
         }, label: {
-            Image(systemName: symbol)
+            VStack {
+                Image(systemName: image)
+                Text(name)
+                    .font(.caption)
+            }
+            .tint(matchColors(theme: theme))
         })
-        .disabled(cardCount + offset < 1 || cardCount + offset > emojis.count)
+    }
+    
+    func matchTheme(theme: Themes) -> [String] {
+        switch theme {
+        case .animal:
+            return animalEmojis
+        case .fruit:
+            return fruitEmojis
+        case .vehicle:
+            return vehicleEmojis
+        }
+    }
+    
+    func makePairs(list: [String]) -> [String] {
+        return list + list
+    }
+    
+    func randomizeList(list: [String]) -> [String] {
+        return list.shuffled()
+    }
+    
+    func themeEmojis(theme: Themes) -> [String] {
+        var emojis = matchTheme(theme: theme)
+        emojis = makePairs(list: emojis)
+        emojis = randomizeList(list: emojis)
+        return emojis
+    }
+    
+    func matchColors(theme: Themes) -> Color {
+        switch theme {
+        case .animal:
+            return .brown
+        case .fruit:
+            return .pink
+        case .vehicle:
+            return .blue
+        }
     }
 }
 
