@@ -7,17 +7,13 @@
 
 import SwiftUI
 
-enum Themes {
-    case vehicle, animal, fruit
-}
+let animalEmojis: [String] = ["🐶", "🐱", "🐭", "🐰", "🐼", "🦊", "🐯", "🦁", "🐮", "🐷"/*, "🐵", "🐸", "🐔", "🦄", "🦉"*/]
+let fruitEmojis: [String] = ["🍏", "🍐", "🍊", "🍋", "🍓", "🍇", "🍉", "🍌", "🫐"/*, "🍍", "🥥", "🍒", "🥭", "🥝"*/]
+let vehicleEmojis: [String] = ["🚗", "🚕", "🚌", "🏎️", "🚓", "🚑", "🚒", "🚐"/*, "🚚", "🚜", "🚅", "🚂", "🚃", "🚁", "🛩️", "🛥️"*/]
 
 struct ContentView: View {
-    let vehicleEmojis: [String] = ["🚗", "🚕", "🚌", "🏎️", "🚓", "🚑", "🚒", "🚐", "🚚", "🚜"/*, "🚅", "🚂", "🚃", "🚁", "🛩️", "🛥️"*/]
-    let animalEmojis: [String] = ["🐶", "🐱", "🐭", "🐰", "🐼", "🦊", "🐯", "🦁", "🐮"/*, "🐷", "🐵", "🐸", "🐔", "🦄", "🦉"*/]
-    let fruitEmojis: [String] = ["🍏", "🍐", "🍊", "🍋", "🍓", "🍇", "🍉", "🍌"/*, "🫐", "🍍", "🥥", "🍒", "🥭", "🥝"*/]
-    
-    @State var currentThemeEmojis: [String] = []
-    @State var currentTheme: Themes = .vehicle
+    @State var themeEmojis: [String] = (animalEmojis + animalEmojis).shuffled()
+    @State var themeColor: Color = .brown
     
     var body: some View {
         VStack {
@@ -26,86 +22,55 @@ struct ContentView: View {
             ScrollView {
                 cards
             }
-            Spacer()
             themePicker
         }
         .padding()
-        .onAppear {
-            currentThemeEmojis = themeEmojis(theme: currentTheme)
-        }
     }
     
     var cards: some View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 60))], spacing: 8) {
-            ForEach(currentThemeEmojis.indices, id: \.self) { index in
-                CardView(content: currentThemeEmojis[index])
+            ForEach(themeEmojis.indices, id: \.self) { index in
+                CardView(content: themeEmojis[index])
                     .aspectRatio(2/3, contentMode: .fit)
             }
         }
-        .foregroundColor(matchColors(theme: currentTheme))
+        .foregroundColor(themeColor)
     }
     
     var themePicker: some View {
-        HStack(spacing: 45) {
-            someTheme(name: "Vehicles", image: "car", theme: .vehicle)
-            someTheme(name: "Animals", image: "dog", theme: .animal)
-            someTheme(name: "Fruits", image: "carrot", theme: .fruit)
+        HStack(alignment: .lastTextBaseline, spacing: 45) {
+            someTheme(theme: "Animals", symbol: "dog")
+            someTheme(theme: "Fruits", symbol: "carrot")
+            someTheme(theme: "Vehicles", symbol: "car")
         }
         .imageScale(.large)
     }
     
-    func someTheme(name: String, image: String, theme: Themes) -> some View {
+    func someTheme(theme: String, symbol: String) -> some View {
         Button(action: {
-            currentTheme = theme
-            currentThemeEmojis = themeEmojis(theme: theme)
+            switch theme {
+            case "Animals":
+                themeEmojis = (animalEmojis + animalEmojis).shuffled()
+                themeColor = .brown
+            case "Fruits":
+                themeEmojis = (fruitEmojis + fruitEmojis).shuffled()
+                themeColor = .pink
+            case "Vehicles":
+                themeEmojis = (vehicleEmojis + vehicleEmojis).shuffled()
+                themeColor = .blue
+            default:
+                themeEmojis = (animalEmojis + animalEmojis).shuffled()
+            }
         }, label: {
             VStack {
-                Image(systemName: image)
-                Text(name)
+                Image(systemName: symbol)
+                Text(theme)
                     .font(.caption)
             }
-            .tint(matchColors(theme: theme))
+            .tint(theme == "Animals" ? .brown : (theme == "Fruits" ? .pink : .blue))
         })
     }
-    
-    func matchTheme(theme: Themes) -> [String] {
-        switch theme {
-        case .animal:
-            return animalEmojis
-        case .fruit:
-            return fruitEmojis
-        case .vehicle:
-            return vehicleEmojis
-        }
-    }
-    
-    func makePairs(list: [String]) -> [String] {
-        return list + list
-    }
-    
-    func randomizeList(list: [String]) -> [String] {
-        return list.shuffled()
-    }
-    
-    func themeEmojis(theme: Themes) -> [String] {
-        var emojis = matchTheme(theme: theme)
-        emojis = makePairs(list: emojis)
-        emojis = randomizeList(list: emojis)
-        return emojis
-    }
-    
-    func matchColors(theme: Themes) -> Color {
-        switch theme {
-        case .animal:
-            return .brown
-        case .fruit:
-            return .pink
-        case .vehicle:
-            return .blue
-        }
-    }
 }
-
 
 struct CardView: View {
     let content: String
