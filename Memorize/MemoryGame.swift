@@ -42,7 +42,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
                 cards[chosenIndex].isFaceUp = true
             } else if cards[chosenIndex].isFaceUp && !cards[chosenIndex].isMatched {
                 if let potentialIndex = indexOfTheOneAndOnlyFaceUpCard {
-                    if chosenIndex == indexOfTheOneAndOnlyFaceUpCard {
+                    if chosenIndex == potentialIndex {
                         cards[chosenIndex].isFaceUp = false
                     }
                 } else {
