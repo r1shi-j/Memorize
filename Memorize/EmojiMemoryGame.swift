@@ -3,7 +3,7 @@
 //  Memorize
 //
 //  Created by Rishi Jansari on 30/06/2024.
-//
+// MARK: ViewModel
 
 import SwiftUI
 
@@ -28,6 +28,10 @@ class EmojiMemoryGame: ObservableObject {
     
     func shuffle() {
         model.shuffle()
+    }
+    
+    func newGame() {
+        model.newGame()
     }
     
     func choose(_ card: MemoryGame<String>.Card) {

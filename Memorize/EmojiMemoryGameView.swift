@@ -3,7 +3,7 @@
 //  Memorize
 //
 //  Created by Rishi Jansari on 27/06/2024.
-//
+// MARK: View
 
 import SwiftUI
 
@@ -16,8 +16,9 @@ struct EmojiMemoryGameView: View {
                 cards
                     .animation(.default, value: viewModel.cards)
             }
-            Button("Shuffle") {
-                viewModel.shuffle()
+
+            Button("New Game") {
+                viewModel.newGame()
             }
         }
         .padding()

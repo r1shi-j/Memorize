@@ -3,7 +3,7 @@
 //  Memorize
 //
 //  Created by Rishi Jansari on 30/06/2024.
-//
+// MARK: Model
 
 import Foundation
 
@@ -18,6 +18,8 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
             cards.append(Card(content: content, id: "\(pairIndex+1)a"))
             cards.append(Card(content: content, id: "\(pairIndex+1)b"))
         }
+        
+        shuffle()
     }
     
     
@@ -38,12 +40,27 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
                     indexOfTheOneAndOnlyFaceUpCard = chosenIndex
                 }
                 cards[chosenIndex].isFaceUp = true
+            } else if cards[chosenIndex].isFaceUp && !cards[chosenIndex].isMatched {
+                if let potentialIndex = indexOfTheOneAndOnlyFaceUpCard {
+                    if chosenIndex == indexOfTheOneAndOnlyFaceUpCard {
+                        cards[chosenIndex].isFaceUp = false
+                    }
+                } else {
+                    cards[chosenIndex].isFaceUp = false
+                    cards[indexOfTheOneAndOnlyFaceUpCard!].isFaceUp = false
+                }
             }
         }
     }
     
     mutating func shuffle() {
         cards.shuffle()
+    }
+    
+    mutating func newGame() {
+        cards.indices.forEach { cards[$0].isFaceUp = false }
+        cards.indices.forEach { cards[$0].isMatched = false }
+        shuffle()
     }
     
     struct Card: Equatable, Identifiable, CustomDebugStringConvertible {
