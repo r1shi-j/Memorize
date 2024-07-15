@@ -16,27 +16,36 @@ struct CardView: View {
     }
     
     var body: some View {
-        Pie(endAngle: .degrees(240))
-            .opacity(Constants.Pie.opacity)
-            .overlay(
-                Text(card.content)
-                    .font(.system(size: Constants.FontSize.largest))
-                    .minimumScaleFactor(Constants.FontSize.scaleFactor)
-                    .multilineTextAlignment(.center)
-                    .aspectRatio(1, contentMode: .fit)
-                    .padding(Constants.Pie.inset)
-            )
-            .padding(Constants.inset)
-            .cardify(isFaceUp: card.isFaceUp)
-        .opacity(card.isMatched ? 0 : 1)
-//        .opacity(card.isFaceUp || !card.isMatched ? 1: 0)
+        TimelineView(.animation) { timeline in
+            if card.isFaceUp || !card.isMatched {
+                Pie(endAngle: .degrees(card.bonusPercentRemaining * 360))
+                    .opacity(Constants.Pie.opacity)
+                    .overlay(cardContents.padding(Constants.Pie.inset))
+                    .padding(Constants.inset)
+                    .cardify(isFaceUp: card.isFaceUp)
+                    .transition(.blurReplace)
+                //            .opacity(card.isMatched ? 0 : 1)
+                //                  .opacity(card.isFaceUp || !card.isMatched ? 1: 0)
+            } else {
+                Color.clear
+            }
+        }
     }
     
+    var cardContents: some View {
+        Text(card.content)
+            .font(.system(size: Constants.FontSize.largest))
+            .minimumScaleFactor(Constants.FontSize.scaleFactor)
+            .multilineTextAlignment(.center)
+            .aspectRatio(1, contentMode: .fit)
+            .rotationEffect(.degrees(card.isMatched ? 360 : 0))
+            .animation(.spin(), value: card.isMatched)
+    }
     
     private struct Constants {
         static let cornerRadius: CGFloat = 12
         static let lineWidth: CGFloat = 2
-        static let inset: CGFloat = 8
+        static let inset: CGFloat = 5
         struct FontSize {
             static let largest: CGFloat = 200
             static let smallest: CGFloat = 2
@@ -44,8 +53,14 @@ struct CardView: View {
         }
         struct Pie {
             static let opacity: CGFloat = 0.4
-            static let inset: CGFloat = 11
+            static let inset: CGFloat = 2
         }
+    }
+}
+
+extension Animation {
+    static func spin() -> Animation {
+        .linear(duration: 1).repeatForever(autoreverses: false)
     }
 }
 

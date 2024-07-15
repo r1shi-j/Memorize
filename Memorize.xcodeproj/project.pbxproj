@@ -17,6 +17,7 @@
 		5BE029622C2DE85400ACB978 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BE029612C2DE85400ACB978 /* Preview Assets.xcassets */; };
 		5BE029692C319C1500ACB978 /* MemoryGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE029682C319C1500ACB978 /* MemoryGame.swift */; };
 		5BE0296B2C319DE900ACB978 /* EmojiMemoryGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE0296A2C319DE900ACB978 /* EmojiMemoryGame.swift */; };
+		5BE145BD2C402C2100C0873A /* FlyingNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE145BC2C402C2100C0873A /* FlyingNumber.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		5BE029612C2DE85400ACB978 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5BE029682C319C1500ACB978 /* MemoryGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryGame.swift; sourceTree = "<group>"; };
 		5BE0296A2C319DE900ACB978 /* EmojiMemoryGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiMemoryGame.swift; sourceTree = "<group>"; };
+		5BE145BC2C402C2100C0873A /* FlyingNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyingNumber.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +72,7 @@
 				5BE029682C319C1500ACB978 /* MemoryGame.swift */,
 				5BE0296A2C319DE900ACB978 /* EmojiMemoryGame.swift */,
 				5BE0295C2C2DE85300ACB978 /* EmojiMemoryGameView.swift */,
+				5BE145BC2C402C2100C0873A /* FlyingNumber.swift */,
 				5BE0295A2C2DE85300ACB978 /* MemorizeApp.swift */,
 				5BE0295E2C2DE85400ACB978 /* Assets.xcassets */,
 				5BE029602C2DE85400ACB978 /* Preview Content */,
@@ -157,6 +160,7 @@
 			files = (
 				5BA46D802C3B0B0500D9EE83 /* CardView.swift in Sources */,
 				5BE0295D2C2DE85300ACB978 /* EmojiMemoryGameView.swift in Sources */,
+				5BE145BD2C402C2100C0873A /* FlyingNumber.swift in Sources */,
 				5BA46D842C3C1D4C00D9EE83 /* Cardify.swift in Sources */,
 				5BE0295B2C2DE85300ACB978 /* MemorizeApp.swift in Sources */,
 				5BE029692C319C1500ACB978 /* MemoryGame.swift in Sources */,
