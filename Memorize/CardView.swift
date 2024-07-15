@@ -17,15 +17,13 @@ struct CardView: View {
     
     var body: some View {
         TimelineView(.animation) { timeline in
-            if card.isFaceUp || !card.isMatched {
+            if /*card.isFaceUp || */!card.isMatched {
                 Pie(endAngle: .degrees(card.bonusPercentRemaining * 360))
                     .opacity(Constants.Pie.opacity)
                     .overlay(cardContents.padding(Constants.Pie.inset))
                     .padding(Constants.inset)
                     .cardify(isFaceUp: card.isFaceUp)
                     .transition(.blurReplace)
-                //            .opacity(card.isMatched ? 0 : 1)
-                //                  .opacity(card.isFaceUp || !card.isMatched ? 1: 0)
             } else {
                 Color.clear
             }
@@ -62,10 +60,4 @@ extension Animation {
     static func spin() -> Animation {
         .linear(duration: 1).repeatForever(autoreverses: false)
     }
-}
-
-#Preview {
-    CardView(CardView.Card(content: "n", id: "test"))
-        .padding()
-        .foregroundStyle(.green)
 }

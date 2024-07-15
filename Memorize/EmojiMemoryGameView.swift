@@ -40,14 +40,9 @@ struct EmojiMemoryGameView: View {
     }
     
     private var newGame: some View {
-        /*Button("New Game") {
+        Button("New Game") {
             withAnimation(.bouncy(duration: 1)) {
                 viewModel.newGame()
-            }
-        }*/
-        Button("Shuffle") {
-            withAnimation(.bouncy(duration: 1)) {
-                viewModel.shuffle()
             }
         }
         .buttonStyle(PlainButtonStyle())
